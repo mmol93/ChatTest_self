@@ -60,4 +60,7 @@ dependencies {
 
     // for button = https://github.com/nikartm/FitButton
     implementation "io.github.nikartm:fit-button:2.0.0"
+
+    // android-lottie = https://github.com/airbnb/lottie-android
+    implementation "com.airbnb.android:lottie:4.1.0"
 }
