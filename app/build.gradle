@@ -57,4 +57,7 @@ dependencies {
     // Add the dependency for the Firebase SDK for Google Analytics
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    // for button = https://github.com/nikartm/FitButton
+    implementation "io.github.nikartm:fit-button:2.0.0"
 }
