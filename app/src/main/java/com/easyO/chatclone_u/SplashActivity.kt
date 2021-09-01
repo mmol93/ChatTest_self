@@ -13,6 +13,9 @@ class SplashActivity : AppCompatActivity() {
         val loginIntent = Intent(this, LoginActivity::class.java)
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
+//        finishAffinity()
+//        startActivity(loginIntent)
+
         val handler = object : Handler(Looper.myLooper()!!){
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
