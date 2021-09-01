@@ -1,11 +1,11 @@
-package com.example.chatclone_u
+package com.easyO.chatclone_u
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.chatclone_u.databinding.FragmentTalkBinding
+import com.easyO.chatclone_u.databinding.FragmentTalkBinding
 
 class TalkFragment : Fragment() {
     private lateinit var binder : FragmentTalkBinding

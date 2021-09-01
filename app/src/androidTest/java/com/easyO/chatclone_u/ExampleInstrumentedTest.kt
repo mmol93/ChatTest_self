@@ -1,4 +1,4 @@
-package com.example.chatclone_u
+package com.easyO.chatclone_u
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,11 +1,11 @@
-package com.example.chatclone_u
+package com.easyO.chatclone_u
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.chatclone_u.databinding.ActivityMainBinding
+import com.easyO.chatclone_u.databinding.ActivityMainBinding
 
 class MainActivity : FragmentActivity() {
     private lateinit var binder : ActivityMainBinding
@@ -17,7 +17,7 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binder = ActivityMainBinding.inflate(layoutInflater)
+        binder = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         setActionBar(binder.toolbar)
 
@@ -32,6 +32,5 @@ class MainActivity : FragmentActivity() {
         }
 
         binder.viewPager2.adapter = adapter
-        setContentView(binder.root)
     }
 }

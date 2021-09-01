@@ -1,4 +1,4 @@
-package com.example.chatclone_u
+package com.easyO.chatclone_u
 
 import org.junit.Test
 

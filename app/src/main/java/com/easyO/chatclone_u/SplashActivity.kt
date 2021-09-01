@@ -1,4 +1,4 @@
-package com.example.chatclone_u
+package com.easyO.chatclone_u
 
 import android.content.Intent
 import android.os.*
@@ -10,14 +10,14 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val mainIntent = Intent(this, MainActivity::class.java)
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        val loginIntent = Intent(this, LoginActivity::class.java)
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
         val handler = object : Handler(Looper.myLooper()!!){
             override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
                 finishAffinity()
-                startActivity(mainIntent)
+                startActivity(loginIntent)
             }
         }
 

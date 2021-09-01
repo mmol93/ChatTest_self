@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "795640981930",
+    "project_id": "chattest-75ff5",
+    "storage_bucket": "chattest-75ff5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795640981930:android:bad31cf03ae987c6e8e3d3",
+        "android_client_info": {
+          "package_name": "com.easyO.chatclone_u"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795640981930-0sqaq6qs9dokbvi15uko8sno07r18rf3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCE_6HWJaTtlVwed0SXDENZBeUOpYTw1a0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795640981930-0sqaq6qs9dokbvi15uko8sno07r18rf3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
