@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:id="@+id/custom_dialog"
+    >
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/rounded_corner_white"
+        android:padding="40dp"
+        >
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/id_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_heart"
+            android:hint="Email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:startIconDrawable="@drawable/ic_secure"
+            app:endIconMode="password_toggle"
+            android:hint="Password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:background="@android:color/transparent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.github.nikartm.button.FitButton
+            android:id="@+id/create_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:enabled="true"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            app:fb_borderColor="@color/white"
+            app:fb_borderWidth="1dp"
+            app:fb_cornerRadius="3dp"
+            app:fb_divColor="@color/white"
+            app:fb_divHeight="40dp"
+            app:fb_divWidth="1dp"
+            app:fb_icon="@drawable/ic_pen"
+            app:fb_iconHeight="22dp"
+            app:fb_iconMarginEnd="16dp"
+            app:fb_iconMarginStart="15dp"
+            app:fb_iconPosition="left"
+            app:fb_iconWidth="28dp"
+            app:fb_rippleColor="@color/white"
+            app:fb_shape="rectangle"
+            app:fb_text="Create Account"
+            app:fb_textSize="16dp"
+            app:fb_textColor="@color/white"
+            app:fb_textPaddingStart="16dp"
+            app:fb_textStyle="bold"
+            app:fb_backgroundColor="#9e81d1"
+            />
+
+        <com.github.nikartm.button.FitButton
+            android:id="@+id/login_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:enabled="true"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            app:fb_borderColor="@color/white"
+            app:fb_borderWidth="1dp"
+            app:fb_cornerRadius="3dp"
+            app:fb_divColor="@color/white"
+            app:fb_divHeight="40dp"
+            app:fb_divWidth="1dp"
+            app:fb_icon="@drawable/ic_key"
+            app:fb_iconHeight="22dp"
+            app:fb_iconMarginEnd="16dp"
+            app:fb_iconMarginStart="15dp"
+            app:fb_iconPosition="left"
+            app:fb_iconWidth="28dp"
+            app:fb_rippleColor="@color/white"
+            app:fb_shape="rectangle"
+            app:fb_text="Login"
+            app:fb_textSize="16dp"
+            app:fb_textColor="@color/white"
+            app:fb_textPaddingStart="16dp"
+            app:fb_textStyle="bold"
+            app:fb_backgroundColor="#9e81d1"
+            />
+    </LinearLayout>
+</FrameLayout>
+</layout>
+
+

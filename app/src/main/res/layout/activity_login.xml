@@ -14,7 +14,7 @@
             android:id="@+id/imageContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:orientation="vertical"
             android:background="@color/mainColor">
 
@@ -71,7 +71,6 @@
                 android:layout_height="match_parent"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp">
-
 
                 <com.github.nikartm.button.FitButton
                     android:id="@+id/google_Button"

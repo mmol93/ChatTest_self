@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.easyO.chatclone_u.databinding.ActivityLoginBinding
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -15,6 +16,13 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_login)
         auth = Firebase.auth
+
+        // 이메일 버튼 클릭 시
+        binder.emailButton.setOnClickListener {
+            val emailLoginDialog = EmailLoginDialog(this)
+            emailLoginDialog.show()
+        }
+
     }
 
     override fun onStart() {
