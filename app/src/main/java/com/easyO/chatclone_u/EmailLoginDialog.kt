@@ -48,6 +48,10 @@ class EmailLoginDialog(context: Context, private val activity:Activity) : Dialog
                             Log.d("TAG", "signInWithEmail: success")
                             AppClass.currentUser = auth.currentUser
 
+                            // 그리고 editText 부분 전부 clear 하기
+                            binder.emailEditText.text = null
+                            binder.passwordEditText.text = null
+
                             // loginDialog 종료
                             this.dismiss()
                         } else {

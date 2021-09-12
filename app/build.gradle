@@ -60,6 +60,8 @@ dependencies {
     // Add the dependency for the Firebase SDK for Google Analytics
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    // Also declare the dependency for the Google Play services library and specify its version
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
     // button library = https://github.com/nikartm/FitButton
     implementation "io.github.nikartm:fit-button:2.0.0"
