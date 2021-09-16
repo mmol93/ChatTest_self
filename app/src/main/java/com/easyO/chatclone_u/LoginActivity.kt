@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.easyO.chatclone_u.databinding.ActivityLoginBinding
+import com.easyO.chatclone_u.util.FireStoreUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -101,6 +102,8 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("TAG", "firebaseAuthWithGoogle:" + account.id)
                 // 입력한 로그인(google) 정보로 로그인을 시도한다
                 firebaseAuthWithGoogle(account.idToken!!)
+                // 성공 시 해당 유저 정보를 데이터베이스에 업로드 한다
+                FireStoreUtil.addUserToDatabase(account.email, auth.uid!!)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("TAG", "Google sign in failed", e)
