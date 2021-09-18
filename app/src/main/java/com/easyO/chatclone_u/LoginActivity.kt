@@ -9,10 +9,10 @@ import androidx.databinding.DataBindingUtil
 import com.easyO.chatclone_u.databinding.ActivityLoginBinding
 import com.easyO.chatclone_u.util.FireStoreUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -22,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binder : ActivityLoginBinding
     private lateinit var auth : FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var googleAccount : GoogleSignInAccount
 
     companion object {
         private const val RC_SIGN_IN = 9001
@@ -78,6 +79,12 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAG", "signInWithCredential:success")
 
+                    // 구글 로그인한 사용자가 새로운 새로 가입한 경우
+                    if (task.result.additionalUserInfo!!.isNewUser){
+                        // 해당 유저 정보를 데이터베이스에 업로드 한다
+                        FireStoreUtil.addUserToDatabase(googleAccount.email!!, auth.uid!!)
+                    }
+
                     // 이전 activity를 모두 삭제하고 새로운 mainActivity 실행
                     val mainActivity = Intent(this, MainActivity::class.java)
                     mainActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -99,11 +106,10 @@ class LoginActivity : AppCompatActivity() {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)!!
+                googleAccount = account
                 Log.d("TAG", "firebaseAuthWithGoogle:" + account.id)
                 // 입력한 로그인(google) 정보로 로그인을 시도한다
                 firebaseAuthWithGoogle(account.idToken!!)
-                // 성공 시 해당 유저 정보를 데이터베이스에 업로드 한다
-                FireStoreUtil.addUserToDatabase(account.email, auth.uid!!)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("TAG", "Google sign in failed", e)
