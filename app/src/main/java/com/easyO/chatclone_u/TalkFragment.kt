@@ -1,6 +1,7 @@
 package com.easyO.chatclone_u
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,9 +30,10 @@ class TalkFragment : Fragment() {
         databaseRef = FirebaseDatabase.getInstance().getReference()
 
         val userList = ArrayList<User>()
+        val currentUserUid = auth.uid
 
         // 리사이클러뷰 세팅 with User 클래스
-        val userAdapter = UserAdapter(userList)
+        val userAdapter = UserAdapter(requireContext(), userList)
         binder.talkRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binder.talkRecyclerView.adapter = userAdapter
 
@@ -42,10 +44,13 @@ class TalkFragment : Fragment() {
 
                 snapshot.children.forEach {
                     val userData = it.getValue(User::class.java)
-
-                    userList.add(userData!!)
+                    Log.d("TAG", "userData: ${userData!!}")
+                    // 아이디를 firebase 콘솔에서 삭제한 경우 uid만 사라지고 해당 계정은 일정 기간 남아있음
+                    // userData.uid != null가 없을 경우 이 남은거도 유저로 인식해버린다
+                    if (currentUserUid != userData.uid && userData.uid != null){
+                        userList.add(userData)
+                    }
                 }
-
                 userAdapter.notifyDataSetChanged()
             }
 

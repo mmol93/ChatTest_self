@@ -10,4 +10,13 @@
     <color name="mainColor">#B39DDB</color>
     <color name="login_button_color">#E6E6E6</color>
     <color name="login_button_text">#757575</color>
+    <color name="background_chat">#1A1922</color>
+    <color name="background_editText">#3E3D3D</color>
+
+    // mainColor와 잘 어울리는 색
+    <color name="main_pink">#ff66cc</color>
+    <color name="main_blue">#3366FF</color>
+    <color name="main_orange">#FF3300</color>
+    <color name="main_deepPurple">#9900FF</color>
+    <color name="main_deepBlue">#0066cc</color>
 </resources>
