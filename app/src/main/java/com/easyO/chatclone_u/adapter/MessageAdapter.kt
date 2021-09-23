@@ -32,13 +32,13 @@ class MessageAdapter(val messageList : ArrayList<SendMessage>) : RecyclerView.Ad
         if (holder.javaClass == SendMessageViewHolder::class.java){
             val viewHolder = holder as SendMessageViewHolder
 
-            viewHolder.binder.sentMessageTextView.text = currentMessage.message
+            viewHolder.binder.sentMessageButton.text = currentMessage.message
         }
         // 호출된게 ReceiveMessageViewHolder 즉, 받는 메시지에 의한거면
         else{
             val viewHolder = holder as ReceiveMessageViewHolder
 
-            viewHolder.binder.receiveMessageTextView.text = currentMessage.message
+            viewHolder.binder.receiveMessageButton.text = currentMessage.message
         }
     }
 

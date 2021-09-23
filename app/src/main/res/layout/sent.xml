@@ -6,14 +6,15 @@
     android:layout_height="wrap_content"
     android:gravity="end">
 
-    <TextView
-        android:id="@+id/sent_message_textView"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sent_message_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:background="@drawable/send_bubble"
+        android:padding="10dp"
         android:textSize="18dp"
-        android:textColor="@color/black"
-        android:background="@drawable/rounded_corner_white"
-        android:text="This is sent Message" />
+        android:textAllCaps="false"
+        android:text="Asendde"
+        />
 </LinearLayout>
 </layout>
