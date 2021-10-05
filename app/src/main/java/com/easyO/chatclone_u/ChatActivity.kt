@@ -25,7 +25,6 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binder = DataBindingUtil.setContentView(this, R.layout.activity_chat)
 
-
         val name = intent.getStringExtra("name")
         val receiverUid = intent.getStringExtra("uid")
 

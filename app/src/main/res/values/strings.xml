@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ChatClone_U</string>
+    <string name="delete">Delete</string>
 </resources>
