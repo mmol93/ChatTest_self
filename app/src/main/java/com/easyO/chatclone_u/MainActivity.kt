@@ -21,8 +21,6 @@ class MainActivity : FragmentActivity() {
 
         binder = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        setActionBar(binder.toolbar)
-
         val adapter = object : FragmentStateAdapter(this){
             override fun getItemCount(): Int {
                 return fragmentList.size
