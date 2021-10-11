@@ -85,4 +85,12 @@ dependencies {
 
     // bottomBar
     implementation 'com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.4'
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0-alpha02"
+    // Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+
 }

@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyO.chatclone_u.adapter.UserAdapter
 import com.easyO.chatclone_u.databinding.FragmentTalkBinding
 import com.easyO.chatclone_u.model.User
+import com.easyO.chatclone_u.viewModel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 

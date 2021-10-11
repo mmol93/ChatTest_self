@@ -6,11 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.easyO.chatclone_u.databinding.FragmentMainBinding
+import com.easyO.chatclone_u.viewModel.MainViewModel
 
 class MainFragment : Fragment() {
     private lateinit var binder : FragmentMainBinding
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

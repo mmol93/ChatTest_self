@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.easyO.chatclone_u.databinding.FragmentSettingBinding
+import com.easyO.chatclone_u.viewModel.MainViewModel
 
 class SettingFragment : Fragment() {
     private lateinit var binder : FragmentSettingBinding
