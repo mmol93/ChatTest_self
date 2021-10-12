@@ -46,6 +46,7 @@ class MessageAdapter(val messageList : ArrayList<SendMessage>) : RecyclerView.Ad
     override fun getItemViewType(position: Int): Int {
         val currentMessage = messageList[position]
         if (FirebaseAuth.getInstance().currentUser!!.uid == currentMessage.senderId){
+            // 여기서 return 한 값은 onCreateViewHolder의 viewType으로 들어간다
             return ITEM_SENT
         }else{
             return ITEM_RECEIVE

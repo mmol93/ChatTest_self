@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ChatClone_U</string>
+    <string name="delete">削除</string>
 
 </resources>
