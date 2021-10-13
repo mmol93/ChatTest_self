@@ -24,4 +24,11 @@
     <color name="activity">#673AB7</color>
     <color name="favorites">#E91E63</color>
     <color name="settings">#4CAF50</color>
+
+    // 그라데이션
+    <color name="background_setting_start">#EAE6FD</color>
+    <color name="background_setting_middle">#F2ECFA</color>
+    <color name="background_setting_end">#F2ECFA</color>
+
+
 </resources>
