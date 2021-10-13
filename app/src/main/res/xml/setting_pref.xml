@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.easyO.chatclone_u.pref.ProfileLayout
+        android:key="profile_layout"
+        android:layout="@layout/profile_layout"
+        />
+</PreferenceScreen>

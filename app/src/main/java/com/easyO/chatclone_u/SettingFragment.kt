@@ -6,17 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceFragmentCompat
 import com.easyO.chatclone_u.databinding.FragmentSettingBinding
 import com.easyO.chatclone_u.viewModel.MainViewModel
 
-class SettingFragment : Fragment() {
+class SettingFragment : PreferenceFragmentCompat() {
     private lateinit var binder : FragmentSettingBinding
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val layoutInflater = inflater.inflate(R.layout.fragment_setting, container, false)
-        binder = FragmentSettingBinding.bind(layoutInflater)
-        return layoutInflater
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        addPreferencesFromResource(R.xml.setting_pref)
     }
 }
