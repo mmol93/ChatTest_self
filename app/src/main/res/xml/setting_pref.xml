@@ -1,7 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.easyO.chatclone_u.pref.ProfileLayout
         android:key="profile_layout"
         android:layout="@layout/profile_layout"
         />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="HashList"
+        android:title="Hash Tags"
+        android:summary="show Hash tag list"/>
+
+
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="Hash1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Edit text preference"
+        app:isPreferenceVisible="false"
+        android:summary="Hash Tag1"/>
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="Hash2"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Edit text preference"
+        app:isPreferenceVisible="false"
+        android:summary="Hash Tag2"/>
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="Hash3"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Edit text preference"
+        app:isPreferenceVisible="false"
+        android:summary="Hash Tag3"/>
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="Hash4"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Edit text preference"
+        app:isPreferenceVisible="false"
+        android:summary="Hash Tag4"/>
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="Hash5"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Edit text preference"
+        app:isPreferenceVisible="false"
+        android:summary="Hash Tag5"/>
+
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="switch_preference_1"
+        android:title="Switch preference"
+        android:summary="All message alarm"/>
+
+    <Preference
+        android:title="About"
+        android:key="About"
+        android:summary="This is a cool button"
+        />
+    <Preference
+        android:title="Logout"
+        android:key="Logout"
+        android:summary="This is a cool button"
+        />
+
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="edit_text_preference_1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="ex: #car #anime"
+        android:title="Edit text preference" />
+
 </PreferenceScreen>

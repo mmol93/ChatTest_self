@@ -12,6 +12,8 @@
     <color name="login_button_text">#757575</color>
     <color name="background_chat">#1A1922</color>
     <color name="background_editText">#3E3D3D</color>
+    <color name="textColor_background">#7A777B</color>
+    <color name="boldTextColor_background">#3F3D3E</color>
 
     // mainColor와 잘 어울리는 색
     <color name="main_pink">#ff66cc</color>
@@ -25,10 +27,10 @@
     <color name="favorites">#E91E63</color>
     <color name="settings">#4CAF50</color>
 
-    // 그라데이션
+    // 배경 그라데이션
     <color name="background_setting_start">#EAE6FD</color>
     <color name="background_setting_middle">#F2ECFA</color>
-    <color name="background_setting_end">#F2ECFA</color>
+    <color name="background_setting_end">#F8F1F8</color>
 
 
 </resources>
