@@ -78,7 +78,7 @@ dependencies {
     // android-lottie = https://github.com/airbnb/lottie-android
     implementation "com.airbnb.android:lottie:4.1.0"
 
-    // 동그라미뷰
+    // Circle imageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // glide
@@ -95,4 +95,6 @@ dependencies {
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
 
+    // Button with Icon
+    implementation "com.github.nikartm:fit-button:1.2.1"
 }

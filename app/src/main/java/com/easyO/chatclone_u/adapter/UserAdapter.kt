@@ -3,15 +3,12 @@ package com.easyO.chatclone_u.adapter
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.easyO.chatclone_u.AppClass
-import com.easyO.chatclone_u.ChatActivity
+import com.easyO.chatclone_u.chat.ChatActivity
 import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.databinding.UserItemBinding
 import com.easyO.chatclone_u.model.User

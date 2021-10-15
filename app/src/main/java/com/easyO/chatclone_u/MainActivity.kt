@@ -1,7 +1,6 @@
 package com.easyO.chatclone_u
 
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -9,7 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.easyO.chatclone_u.chat.TalkFragment
 import com.easyO.chatclone_u.databinding.ActivityMainBinding
+import com.easyO.chatclone_u.home.MainFragment
+import com.easyO.chatclone_u.setting.SettingFragment
 import com.easyO.chatclone_u.viewModel.MainViewModel
 
 class MainActivity : FragmentActivity() {

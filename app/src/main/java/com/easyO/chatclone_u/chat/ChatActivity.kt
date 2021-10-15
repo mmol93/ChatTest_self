@@ -1,11 +1,10 @@
-package com.easyO.chatclone_u
+package com.easyO.chatclone_u.chat
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.adapter.MessageAdapter
 import com.easyO.chatclone_u.databinding.ActivityChatBinding
 import com.easyO.chatclone_u.util.SendMessage

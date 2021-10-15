@@ -106,6 +106,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.github.nikartm.button.FitButton
+                    android:visibility="gone"
                     android:id="@+id/faceBook_Button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

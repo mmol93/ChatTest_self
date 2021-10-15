@@ -1,10 +1,12 @@
-package com.easyO.chatclone_u
+package com.easyO.chatclone_u.setting
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.easyO.chatclone_u.AppClass
+import com.easyO.chatclone_u.R
 
 class SettingFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

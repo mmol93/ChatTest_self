@@ -4,7 +4,7 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TalkFragment">
+    tools:context=".chat.TalkFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/talk_RecyclerView"

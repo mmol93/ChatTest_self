@@ -1,14 +1,17 @@
-package com.easyO.chatclone_u.pref
+package com.easyO.chatclone_u.setting
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.easyO.chatclone_u.AppClass
+import com.easyO.chatclone_u.MainActivity
 import com.easyO.chatclone_u.R
 
 // PreferenceScreen에 넣기 위해 layout을 Preference의 구성요소로 만들기
@@ -29,7 +32,9 @@ class ProfileLayout @JvmOverloads constructor(
         // container layout에 있는 개별 view에 대해선 listener를 설정하는게 불가능하다
         // 대신 해당 container layout 전체에 대한 클릭 listener는 지정 가능
         holder.itemView.setOnClickListener {
-            Toast.makeText(AppClass.context, "dd", Toast.LENGTH_SHORT).show()
+            // 클릭 시 ProfileActivity 열기
+            val intent = Intent(context, ProfileActivity::class.java)
+            startActivity(context, intent, null)
         }
 
         // 각각의 뷰에 대한 정의는 가능
