@@ -41,6 +41,7 @@ class ChatActivity : AppCompatActivity() {
         binder.chatRecyclerView.adapter = messageAdapter
 
         // 리사이클러뷰에 주고 받은 메시지 데이터를 넣는다
+        // addValueEventListener를 넣어 firebase의 데이터 베이스가 바뀔 때마다 리사이클러뷰를 갱신하게 한다
         messageDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -58,7 +59,7 @@ class ChatActivity : AppCompatActivity() {
                 }
             })
 
-        // 메시지를 데이터베이스에 저장한다
+        // 보내기 버튼 클릭 시 메시지를 데이터베이스에 저장한다
         binder.sentMessageImageView.setOnClickListener {
             val message = binder.messageEditText.text.toString()
             val messageObject = SendMessage(message, senderUid)

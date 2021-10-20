@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
+
     // Add the dependency for the Firebase SDK for Google Analytics
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
@@ -71,6 +72,7 @@ dependencies {
 
     // FirebaseUI for Cloud Storage
     implementation 'com.firebaseui:firebase-ui-storage:8.0.0'
+    implementation 'com.google.firebase:firebase-storage-ktx'
 
     // button library = https://github.com/nikartm/FitButton
     implementation "io.github.nikartm:fit-button:2.0.0"
@@ -96,5 +98,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
 
     // Button with Icon
-    implementation "com.github.nikartm:fit-button:1.2.1"
+    implementation("io.github.nikartm:fit-button:2.0.0")
+
 }

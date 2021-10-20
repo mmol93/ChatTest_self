@@ -11,7 +11,7 @@ import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.easyO.chatclone_u.databinding.EmailLoginDialogBinding
-import com.easyO.chatclone_u.util.FireStoreUtil
+import com.easyO.chatclone_u.util.FireDataUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -93,7 +93,7 @@ class EmailLoginDialog(context: Context, private val activity:Activity) : Dialog
                                 Toast.LENGTH_SHORT).show()
 
                             // 회원 가입 성공했으면 해당 유저 정보를 데이터베이스에 등록하기
-                            FireStoreUtil.addUserToDatabase(email, user!!.uid)
+                            FireDataUtil.addUserToDatabase(email, user!!.uid)
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "createUserWithEmail:failure", task.exception)

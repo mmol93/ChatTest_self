@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.easyO.chatclone_u.databinding.ActivityLoginBinding
-import com.easyO.chatclone_u.util.FireStoreUtil
+import com.easyO.chatclone_u.util.FireDataUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -78,11 +78,11 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAG", "signInWithCredential:success")
-
+                    AppClass.currentUser = auth.currentUser
                     // 구글 로그인한 사용자가 새로운 새로 가입한 경우
                     if (task.result.additionalUserInfo!!.isNewUser){
                         // 해당 유저 정보를 데이터베이스에 업로드 한다
-                        FireStoreUtil.addUserToDatabase(googleAccount.email!!, auth.uid!!)
+                        FireDataUtil.addUserToDatabase(googleAccount.email!!, auth.uid!!)
                     }
 
                     // 이전 activity를 모두 삭제하고 새로운 mainActivity 실행
