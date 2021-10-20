@@ -39,7 +39,7 @@
         android:textColor="@color/boldTextColor_background"
         android:fontFamily="@font/nanumgothic"
         android:text="TextView"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         />
 </LinearLayout>

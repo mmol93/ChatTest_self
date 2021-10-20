@@ -22,7 +22,6 @@ class SettingFragment : PreferenceFragmentCompat() {
         if (preference.key == "HashList") {
             // user clicked the item
             Toast.makeText(AppClass.context, "Hash Clicked", Toast.LENGTH_SHORT).show()
-
             return true
         }else if (preference.key == "About"){
             Toast.makeText(AppClass.context, "About Clicked", Toast.LENGTH_SHORT).show()
