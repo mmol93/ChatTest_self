@@ -3,7 +3,11 @@ package com.easyO.chatclone_u.setting
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -29,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binder : ActivityProfileBinding
+    private lateinit var profileBitmap : Bitmap
     val REQ_GALLERY = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,16 +68,6 @@ class ProfileActivity : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NO_HISTORY
                 startActivityForResult(intent, REQ_GALLERY)
             }
-        }
-
-        // image 다운로드 하기 - test용
-        binder.profileImageView.setOnLongClickListener {
-            // 준비된 테스트 그림을 firebase storage에서 다운로드 하기
-            // 경로 설정
-            FireStorage.firebaseDownLocal("16_10.jpg","test1" ,"jpg")
-            FireStorage.firebaseDownLocal("4_3.PNG","test2" ,"jpg")
-
-            true
         }
 
         // 성별 스피너(드롭다운)에 대한 정의
@@ -118,8 +113,8 @@ class ProfileActivity : AppCompatActivity() {
             // Users 폴더 -> uid 이름의 폴더 -> 여기에 profile이라는 이름으로 저장
             val firebasePath = "Users/" + AppClass.currentUser!!.uid + "/profile.jpg"
             val bitmap = MyConvertor.getBitmapFromView(binder.profileImageView)
-            // 업로드된 그림 파일은 원본이 아닌 view에 있는 모습 그대로 올라간다
-            FireStorage.firebaseUpload(firebasePath, bitmap)
+            // 업로드된 그림 파일은 view에 있는 그림이 아닌 원본을 올린다
+            FireStorage.firebaseUpload(firebasePath, profileBitmap)
             finishAndRemoveTask()
         }
 
@@ -129,12 +124,25 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
+    // 갤러리에서 돌아 왔을 때
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_GALLERY && resultCode == RESULT_OK){
-            val uri = data!!.data
-            // 글라이드를 이용하여 imageView에 업로드
-            Glide.with(application).load(uri).into(binder.profileImageView)
+            if (data!!.data != null){
+                val uriPicture = data!!.data
+
+                // Uri에 있는 image 데이터를 bitmap으로 변환하기
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+                    profileBitmap = ImageDecoder
+                        .decodeBitmap(ImageDecoder.createSource(getContentResolver(), uriPicture!!))
+                }else{
+                    profileBitmap = MediaStore
+                        .Images.Media.getBitmap(getContentResolver(), uriPicture)
+                }
+
+                // 글라이드를 이용하여 imageView에 업로드
+                Glide.with(application).load(uriPicture).into(binder.profileImageView)
+            }
         }
     }
 
