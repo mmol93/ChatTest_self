@@ -22,7 +22,6 @@ class SettingFragment : PreferenceFragmentCompat() {
         super.onViewCreated(view, savedInstanceState)
         view.setBackgroundResource(R.drawable.fragment_background)
         pref = PreferenceManager.getDefaultSharedPreferences(context)
-
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -41,6 +40,12 @@ class SettingFragment : PreferenceFragmentCompat() {
                 tag3TextView!!.isVisible = true
                 tag4TextView!!.isVisible = true
                 tag5TextView!!.isVisible = true
+            }else{
+                tag1TextView!!.isVisible = false
+                tag2TextView!!.isVisible = false
+                tag3TextView!!.isVisible = false
+                tag4TextView!!.isVisible = false
+                tag5TextView!!.isVisible = false
             }
             return true
         }else if (preference.key == "About"){

@@ -7,11 +7,16 @@ import android.util.AttributeSet
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import com.easyO.chatclone_u.AppClass
+import com.easyO.chatclone_u.MainActivity
 import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.model.User
+import com.easyO.chatclone_u.util.FireStorage
+import com.easyO.chatclone_u.viewModel.MainViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,6 +41,7 @@ class ProfileLayout @JvmOverloads constructor(
     // 해당 layout에 들어있는 view를 초기화 하고 기능 설정 가능
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
+
         // 프로필 이미지 로딩은 이 클래스 내부에서 2번 사용되기 때문에 fun으로 묶어서 쓴다
         // 첫 번째: 처음 화면 생성 시 로딩
         // 두 번째: 사진 변경 시 다시 로딩

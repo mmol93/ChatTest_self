@@ -4,32 +4,21 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
-import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.view.ContentInfoCompat
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.easyO.chatclone_u.AppClass
 import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.databinding.ActivityProfileBinding
-import com.easyO.chatclone_u.model.User
 import com.easyO.chatclone_u.util.FireDataUtil
 import com.easyO.chatclone_u.util.FireStorage
-import com.easyO.chatclone_u.util.MyConvertor
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import de.hdodenhof.circleimageview.CircleImageView
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binder : ActivityProfileBinding
@@ -98,6 +87,14 @@ class ProfileActivity : AppCompatActivity() {
 
         // *** update 버튼 클릭 시
         binder.buttonUpdate.setOnClickListener {
+            // 사진 데이터를 firebase Storage에 업로드
+            // Users 폴더 -> uid 이름의 폴더 -> 여기에 profile이라는 이름으로 저장
+            val firebasePath = "Users/" + AppClass.currentUser!!.uid + "/profile.jpg"
+//            val bitmap = MyConvertor.getBitmapFromView(binder.profileImageView)
+            // 업로드된 그림 파일은 view에 있는 그림이 아닌 원본을 올린다
+            FireStorage.firebaseUpload(firebasePath, profileBitmap)
+
+            // 텍스트 데이터를 database에 업로드
             val name = binder.nameEditText.text.toString()
             val sex = binder.sexSpinner.selectedItem.toString()
             val info = binder.selfEditText.text.toString()
@@ -108,13 +105,6 @@ class ProfileActivity : AppCompatActivity() {
 
             // Text 데이터들을 firebase database에 업데이트
             FireDataUtil.userDataUpdate(name = name, sex = sex, info = info, age = age, uid = AppClass.currentUser!!.uid)
-
-            // 사진 데이터를 firebase Storage에 업로드
-            // Users 폴더 -> uid 이름의 폴더 -> 여기에 profile이라는 이름으로 저장
-            val firebasePath = "Users/" + AppClass.currentUser!!.uid + "/profile.jpg"
-            val bitmap = MyConvertor.getBitmapFromView(binder.profileImageView)
-            // 업로드된 그림 파일은 view에 있는 그림이 아닌 원본을 올린다
-            FireStorage.firebaseUpload(firebasePath, profileBitmap)
             finishAndRemoveTask()
         }
 

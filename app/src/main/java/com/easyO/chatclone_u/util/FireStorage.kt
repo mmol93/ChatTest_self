@@ -33,7 +33,6 @@ object FireStorage {
         val baos = ByteArrayOutputStream()
         imageData.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
-
         val uploadTask = imageRef.putBytes(data)
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
