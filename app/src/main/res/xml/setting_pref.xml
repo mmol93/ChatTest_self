@@ -9,67 +9,73 @@
     <SwitchPreference
         android:defaultValue="false"
         android:key="HashList"
-        android:title="Hash Tags"
-        android:summary="show Hash tag list"/>
-
+        android:title="Show Hash Tags"
+        android:summary="Enter your interests"/>
 
     <EditTextPreference
         android:defaultValue="Default value"
         android:key="Hash1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Edit text preference"
+        android:title="Hash Tag1"
         app:isPreferenceVisible="false"
+        app:useSimpleSummaryProvider="true"
         android:summary="Hash Tag1"/>
     <EditTextPreference
         android:defaultValue="Default value"
         android:key="Hash2"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Edit text preference"
+        android:title="Hash Tag2"
         app:isPreferenceVisible="false"
+        app:useSimpleSummaryProvider="true"
         android:summary="Hash Tag2"/>
     <EditTextPreference
         android:defaultValue="Default value"
         android:key="Hash3"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Edit text preference"
+        android:title="Hash Tag3"
         app:isPreferenceVisible="false"
+        app:useSimpleSummaryProvider="true"
         android:summary="Hash Tag3"/>
     <EditTextPreference
         android:defaultValue="Default value"
         android:key="Hash4"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Edit text preference"
+        android:title="Hash Tag4"
         app:isPreferenceVisible="false"
+        app:useSimpleSummaryProvider="true"
         android:summary="Hash Tag4"/>
     <EditTextPreference
         android:defaultValue="Default value"
         android:key="Hash5"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Edit text preference"
+        android:title="Hash Tag5"
         app:isPreferenceVisible="false"
+        app:useSimpleSummaryProvider="true"
         android:summary="Hash Tag5"/>
 
 
     <SwitchPreference
         android:defaultValue="false"
         android:key="switch_preference_1"
-        android:title="Switch preference"
+        android:title="Message Alarm"
         android:summary="All message alarm"/>
 
     <Preference
         android:title="About"
         android:key="About"
-        android:summary="This is a cool button"
+        android:summary="Email, Library, etc"
         />
+
+
     <Preference
         android:title="Logout"
         android:key="Logout"
-        android:summary="This is a cool button"
+        android:summary="Go to Login Page"
         />
 
     <EditTextPreference

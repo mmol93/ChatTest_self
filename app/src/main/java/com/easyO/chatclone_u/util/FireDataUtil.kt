@@ -1,11 +1,7 @@
 package com.easyO.chatclone_u.util
 
 import com.easyO.chatclone_u.model.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.*
 import com.google.firebase.storage.ktx.storage
 import java.io.File
 
@@ -27,4 +23,26 @@ object FireDataUtil {
 
         currentUserDataRef.child("user").child(uid).setValue(User(name = name, sex = sex, age = age, info = info))
     }
+
+    // 유저 태그 업데이트
+    fun userTagUpdate(uid: String, tag1: String?, tag2 : String?, tag3: String?, tag4: String?, tag5: String?){
+        currentUserDataRef = FirebaseDatabase.getInstance().getReference()
+
+        if (tag1 != null){
+            currentUserDataRef.child("user").child(uid).child("tag1").setValue(tag1)
+        }
+        if (tag2 != null){
+            currentUserDataRef.child("user").child(uid).setValue(User(tag2 = tag2))
+        }
+        if (tag3 != null){
+            currentUserDataRef.child("user").child(uid).setValue(User(tag3 = tag3))
+        }
+        if (tag4 != null){
+            currentUserDataRef.child("user").child(uid).setValue(User(tag4 = tag4))
+        }
+        if (tag5 != null){
+            currentUserDataRef.child("user").child(uid).setValue(User(tag5 = tag5))
+        }
+    }
+
 }

@@ -19,10 +19,11 @@ import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.databinding.ActivityProfileBinding
 import com.easyO.chatclone_u.util.FireDataUtil
 import com.easyO.chatclone_u.util.FireStorage
+import com.easyO.chatclone_u.util.MyConvertor
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binder : ActivityProfileBinding
-    private lateinit var profileBitmap : Bitmap
+    private var profileBitmap : Bitmap? = null
     val REQ_GALLERY = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +93,11 @@ class ProfileActivity : AppCompatActivity() {
             val firebasePath = "Users/" + AppClass.currentUser!!.uid + "/profile.jpg"
 //            val bitmap = MyConvertor.getBitmapFromView(binder.profileImageView)
             // 업로드된 그림 파일은 view에 있는 그림이 아닌 원본을 올린다
-            FireStorage.firebaseUpload(firebasePath, profileBitmap)
+            if (profileBitmap != null){
+                FireStorage.firebaseUpload(firebasePath, profileBitmap!!)
+            }else{
+                FireStorage.firebaseUpload(firebasePath, MyConvertor.getBitmapFromFile(this, R.drawable.ic_google)!!)
+            }
 
             // 텍스트 데이터를 database에 업로드
             val name = binder.nameEditText.text.toString()
@@ -132,6 +137,8 @@ class ProfileActivity : AppCompatActivity() {
 
                 // 글라이드를 이용하여 imageView에 업로드
                 Glide.with(application).load(uriPicture).into(binder.profileImageView)
+            }else{
+                profileBitmap = null
             }
         }
     }

@@ -17,6 +17,7 @@ import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.model.User
 import com.easyO.chatclone_u.util.FireStorage
 import com.easyO.chatclone_u.viewModel.MainViewModel
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -60,6 +61,8 @@ class ProfileLayout @JvmOverloads constructor(
                     // byteArray를 bitmap으로 변환
                     val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
                     holder.itemView.findViewById<CircleImageView>(R.id.profile_imageView).setImageBitmap(bitmap)
+                    // 그림 파일 다운로드가 끝나면 해당 profile 레이아웃을 한번 더 갱신해준다
+                    onBindViewHolder(holder)
                 }.addOnFailureListener {
                     // Handle any errors
                     Toast.makeText(AppClass.context, "profile download failed", Toast.LENGTH_SHORT).show()
@@ -69,19 +72,22 @@ class ProfileLayout @JvmOverloads constructor(
 
         // firebase에서 프로필 정보(텍스트) 가져오기
         // 1. 각종 Ref 정의
+        val auth = Firebase.auth
+        AppClass.currentUser = auth.currentUser
         val userRef = FirebaseDatabase.getInstance().reference.child("user")
             .child(AppClass.currentUser!!.uid)
 
         val nameListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()){
+                    // Storage의 경우 listener가 없기 때문에 여기서 profile 이미지를 갱신한다
+                    reloadProfilePicture()
+
                     val user = dataSnapshot.getValue(User::class.java)
                     // 이름
                     holder.itemView.findViewById<TextView>(R.id.name_textView).text = user!!.name
                     // 소개
                     holder.itemView.findViewById<TextView>(R.id.selfInfo_textView).text = user.info
-                    // Storage의 경우 listern가 없기 때문에 여기서 profile 이미지를 갱신한다
-                    reloadProfilePicture()
                 }
             }
 
