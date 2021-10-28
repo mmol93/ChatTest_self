@@ -1,74 +1,84 @@
 package com.easyO.chatclone_u.setting
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
-import androidx.preference.EditTextPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.preference.*
 import com.easyO.chatclone_u.AppClass
 import com.easyO.chatclone_u.R
+import com.easyO.chatclone_u.model.User
 import com.easyO.chatclone_u.util.FireDataUtil
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class SettingFragment : PreferenceFragmentCompat() {
-    lateinit var pref : SharedPreferences
+    lateinit var prefManager : SharedPreferences
+    lateinit var tag1TextView : EditTextPreference
+    lateinit var tag2TextView : EditTextPreference
+    lateinit var tag3TextView : EditTextPreference
+    lateinit var tag4TextView : EditTextPreference
+    lateinit var tag5TextView : EditTextPreference
+    lateinit var logout: Preference
+    var rootKey_forRenew : String? = null
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        addPreferencesFromResource(R.xml.setting_pref)
+        setPreferencesFromResource(R.xml.setting_pref, rootKey)
+        rootKey_forRenew = rootKey
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.setBackgroundResource(R.drawable.fragment_background)
-        pref = PreferenceManager.getDefaultSharedPreferences(context)
+        prefManager = PreferenceManager.getDefaultSharedPreferences(context)
 
         // SettingFragment UI 초기화
+        tag1TextView = findPreference<EditTextPreference>("Hash1")!!
+        tag2TextView = findPreference<EditTextPreference>("Hash2")!!
+        tag3TextView = findPreference<EditTextPreference>("Hash3")!!
+        tag4TextView = findPreference<EditTextPreference>("Hash4")!!
+        tag5TextView = findPreference<EditTextPreference>("Hash5")!!
+
         hashSwitch()
-    }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        if (preference.key == "HashList") {
-            hashSwitch()
-            return true
-        }else if (preference.key == "About"){
-            Toast.makeText(AppClass.context, "About Clicked", Toast.LENGTH_SHORT).show()
-            return true
-        }else if (preference.key == "Logout"){
-            Toast.makeText(AppClass.context, "Logout Clicked", Toast.LENGTH_SHORT).show()
-            return true
+        // 이 리스너는 최초 호출 시 반드시 1번 호출됨
+        var once = 0
+        val userRef = FirebaseDatabase.getInstance().reference.child("user")
+            .child(AppClass.currentUser!!.uid).child("trigger")
+        val nameListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()){
+                    // Storage의 경우 listener가 없기 때문에 여기서 profile 이미지를 갱신한다
+                    Log.d("SettingFragment", "listen")
+                    // 최초 발동 시에는 발동하지 않게 한다
+                    if (once == 1){
+                        // setPreferencesFromResource를 하면 기존에 tag1TextView가 아얘 바뀌어버린다
+                        // 그래서 setPreferencesFromResource를 한 이후 다시 이 부분을 재정의 하지 않으면
+                        // 제대로 기능을 하지 않음
+                        setPreferencesFromResource(R.xml.setting_pref, rootKey_forRenew)
+
+                        tag1TextView = findPreference<EditTextPreference>("Hash1")!!
+                        tag2TextView = findPreference<EditTextPreference>("Hash2")!!
+                        tag3TextView = findPreference<EditTextPreference>("Hash3")!!
+                        tag4TextView = findPreference<EditTextPreference>("Hash4")!!
+                        tag5TextView = findPreference<EditTextPreference>("Hash5")!!
+
+                        hashSwitch()
+                    }else{
+                        once = 1
+                    }
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Toast.makeText(AppClass.context, "Please set again", Toast.LENGTH_SHORT).show()
+            }
         }
-        return false
-    }
-
-    // (주로)ProfileActivity에서 돌아왔을 때
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    fun hashSwitch(){
-        // user clicked the item
-        val hashSwitch = pref.getBoolean("HashList", false)
-        val tag1TextView = findPreference<EditTextPreference>("Hash1")
-        val tag2TextView = findPreference<EditTextPreference>("Hash2")
-        val tag3TextView = findPreference<EditTextPreference>("Hash3")
-        val tag4TextView = findPreference<EditTextPreference>("Hash4")
-        val tag5TextView = findPreference<EditTextPreference>("Hash5")
-
-        if (hashSwitch){
-            tag1TextView!!.isVisible = true
-            tag2TextView!!.isVisible = true
-            tag3TextView!!.isVisible = true
-            tag4TextView!!.isVisible = true
-            tag5TextView!!.isVisible = true
-        }else{
-            tag1TextView!!.isVisible = false
-            tag2TextView!!.isVisible = false
-            tag3TextView!!.isVisible = false
-            tag4TextView!!.isVisible = false
-            tag5TextView!!.isVisible = false
-        }
+        userRef.addValueEventListener(nameListener)
 
         // 각 hashTag의 텍스트뷰의 값이 변경되면 데이터를 업로드한다. - 리스너 붙임
         tag1TextView.setOnPreferenceChangeListener { preference, newValue ->
@@ -90,6 +100,41 @@ class SettingFragment : PreferenceFragmentCompat() {
         tag5TextView.setOnPreferenceChangeListener { preference, newValue ->
             FireDataUtil.userTagUpdate(uid = AppClass.currentUser!!.uid, null, null, null, null, newValue.toString())
             return@setOnPreferenceChangeListener true
+        }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        if (preference.key == "HashList") {
+            hashSwitch()
+            return true
+        }else if (preference.key == "About"){
+            Toast.makeText(AppClass.context, "About Clicked", Toast.LENGTH_SHORT).show()
+            return true
+        }else if (preference.key == "Logout"){
+            Toast.makeText(AppClass.context, "Logout Clicked", Toast.LENGTH_SHORT).show()
+            return true
+        }
+        return false
+    }
+
+    fun hashSwitch(){
+        // user clicked the item
+        val hashSwitch = prefManager.getBoolean("HashList", false)
+
+        Toast.makeText(AppClass.context, "hashSwitch $hashSwitch", Toast.LENGTH_SHORT).show()
+
+        if (hashSwitch){
+            tag1TextView.isVisible = true
+            tag2TextView.isVisible = true
+            tag3TextView.isVisible = true
+            tag4TextView.isVisible = true
+            tag5TextView.isVisible = true
+        }else{
+            tag1TextView.isVisible = false
+            tag2TextView.isVisible = false
+            tag3TextView.isVisible = false
+            tag4TextView.isVisible = false
+            tag5TextView.isVisible = false
         }
     }
 }

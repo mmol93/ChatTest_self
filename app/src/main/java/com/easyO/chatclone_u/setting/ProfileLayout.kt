@@ -3,7 +3,9 @@ package com.easyO.chatclone_u.setting
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.SystemClock
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
@@ -61,8 +63,7 @@ class ProfileLayout @JvmOverloads constructor(
                     // byteArray를 bitmap으로 변환
                     val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
                     holder.itemView.findViewById<CircleImageView>(R.id.profile_imageView).setImageBitmap(bitmap)
-                    // 그림 파일 다운로드가 끝나면 해당 profile 레이아웃을 한번 더 갱신해준다
-                    onBindViewHolder(holder)
+                    Log.d("ProfileLayout", "picture load test")
                 }.addOnFailureListener {
                     // Handle any errors
                     Toast.makeText(AppClass.context, "profile download failed", Toast.LENGTH_SHORT).show()
@@ -71,18 +72,16 @@ class ProfileLayout @JvmOverloads constructor(
         }
 
         // firebase에서 프로필 정보(텍스트) 가져오기
-        // 1. 각종 Ref 정의
+        // 각종 Ref 정의
         val auth = Firebase.auth
         AppClass.currentUser = auth.currentUser
         val userRef = FirebaseDatabase.getInstance().reference.child("user")
-            .child(AppClass.currentUser!!.uid)
-
+            .child(AppClass.currentUser!!.uid).child("basic")
+        reloadProfilePicture()
         val nameListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()){
                     // Storage의 경우 listener가 없기 때문에 여기서 profile 이미지를 갱신한다
-                    reloadProfilePicture()
-
                     val user = dataSnapshot.getValue(User::class.java)
                     // 이름
                     holder.itemView.findViewById<TextView>(R.id.name_textView).text = user!!.name
@@ -90,7 +89,6 @@ class ProfileLayout @JvmOverloads constructor(
                     holder.itemView.findViewById<TextView>(R.id.selfInfo_textView).text = user.info
                 }
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Toast.makeText(AppClass.context, "Please set again", Toast.LENGTH_SHORT).show()

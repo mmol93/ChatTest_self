@@ -1,6 +1,7 @@
 package com.easyO.chatclone_u.setting
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,6 +14,7 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.easyO.chatclone_u.AppClass
 import com.easyO.chatclone_u.R
@@ -94,11 +96,10 @@ class ProfileActivity : AppCompatActivity() {
 //            val bitmap = MyConvertor.getBitmapFromView(binder.profileImageView)
             // 업로드된 그림 파일은 view에 있는 그림이 아닌 원본을 올린다
             if (profileBitmap != null){
-                FireStorage.firebaseUpload(firebasePath, profileBitmap!!)
+                FireStorage.firebaseUpload(firebasePath, profileBitmap!!, true)
             }else{
-                FireStorage.firebaseUpload(firebasePath, MyConvertor.getBitmapFromFile(this, R.drawable.ic_google)!!)
+                FireStorage.firebaseUpload(firebasePath, MyConvertor.getBitmapFromFile(this, R.drawable.ic_google)!!, true)
             }
-
             // 텍스트 데이터를 database에 업로드
             val name = binder.nameEditText.text.toString()
             val sex = binder.sexSpinner.selectedItem.toString()
@@ -134,7 +135,6 @@ class ProfileActivity : AppCompatActivity() {
                     profileBitmap = MediaStore
                         .Images.Media.getBitmap(getContentResolver(), uriPicture)
                 }
-
                 // 글라이드를 이용하여 imageView에 업로드
                 Glide.with(application).load(uriPicture).into(binder.profileImageView)
             }else{

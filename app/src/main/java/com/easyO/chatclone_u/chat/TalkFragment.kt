@@ -18,6 +18,7 @@ class TalkFragment : Fragment() {
     private lateinit var binder : FragmentTalkBinding
     private lateinit var databaseRef : DatabaseReference
     private lateinit var auth : FirebaseAuth
+    private lateinit var valueChangeListener: ValueEventListener
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,16 +40,16 @@ class TalkFragment : Fragment() {
         binder.talkRecyclerView.adapter = userAdapter
 
         // 데이터 베이스의 user에 있는 값이 변경 되었을 때
-        databaseRef.child("user").addValueEventListener(object : ValueEventListener {
+        valueChangeListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 userList.clear()
 
                 snapshot.children.forEach {
                     val userData = it.getValue(User::class.java)
-                    Log.d("TAG", "userData: ${userData!!}")
+                    Log.d("TAG", "TalkFragment userData: ${userData}")
                     // 아이디를 firebase 콘솔에서 삭제한 경우 uid만 사라지고 해당 계정은 일정 기간 남아있음
                     // userData.uid != null가 없을 경우 이 남은거도 유저로 인식해버린다
-                    if (currentUserUid != userData.uid && userData.uid != null){
+                    if (currentUserUid != userData!!.uid && userData.uid != null){
                         userList.add(userData)
                     }
                 }
@@ -58,8 +59,19 @@ class TalkFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-        })
-
+        }
         return layoutInflater
+    }
+
+    override fun onPause() {
+        super.onPause()
+        databaseRef.child("user").removeEventListener(valueChangeListener)
+        Log.d("TAG", "TalkFragment onPause")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        databaseRef.child("user").addValueEventListener(valueChangeListener)
+        Log.d("TAG", "TalkFragment onResume")
     }
 }
