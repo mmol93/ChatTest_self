@@ -3,8 +3,8 @@
     package="com.easyO.chatclone_u">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".AppClass"
@@ -14,10 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatClone_U">
-        <activity android:name=".setting.ProfileActivity"
-            android:launchMode="singleTask">
-
-        </activity>
+        <activity android:name=".home.HomeActivity"></activity>
+        <activity
+            android:name=".setting.ProfileActivity"
+            android:launchMode="singleTask"></activity>
         <activity android:name=".chat.ChatActivity" />
         <activity
             android:name=".SplashActivity"
