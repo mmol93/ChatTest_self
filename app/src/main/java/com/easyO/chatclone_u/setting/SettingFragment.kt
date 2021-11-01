@@ -1,5 +1,8 @@
 package com.easyO.chatclone_u.setting
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -8,13 +11,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.preference.*
 import com.easyO.chatclone_u.AppClass
+import com.easyO.chatclone_u.LoginActivity
 import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.model.User
 import com.easyO.chatclone_u.util.FireDataUtil
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
 class SettingFragment : PreferenceFragmentCompat() {
     lateinit var prefManager : SharedPreferences
@@ -53,7 +59,6 @@ class SettingFragment : PreferenceFragmentCompat() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()){
                     // Storage의 경우 listener가 없기 때문에 여기서 profile 이미지를 갱신한다
-                    Log.d("SettingFragment", "listen")
                     // 최초 발동 시에는 발동하지 않게 한다
                     if (once == 1){
                         // setPreferencesFromResource를 하면 기존에 tag1TextView가 아얘 바뀌어버린다
@@ -103,6 +108,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         }
     }
 
+    // 각 Preference 버튼을 클락했을 때 동작 지정
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         if (preference.key == "HashList") {
             hashSwitch()
@@ -110,8 +116,28 @@ class SettingFragment : PreferenceFragmentCompat() {
         }else if (preference.key == "About"){
             Toast.makeText(AppClass.context, "About Clicked", Toast.LENGTH_SHORT).show()
             return true
-        }else if (preference.key == "Logout"){
-            Toast.makeText(AppClass.context, "Logout Clicked", Toast.LENGTH_SHORT).show()
+        }
+        // 로그아웃 처리
+        else if (preference.key == "Logout"){
+            // 로그아웃 확인을 위한 팝업 = Dialog
+            val dialogBuilder = AlertDialog.Builder(context)
+
+            val positiveListener = object : DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    // 로그 아웃 및 MainActivity 종료
+                    activity?.finishAndRemoveTask()
+                    Firebase.auth.signOut()
+
+                    // 로그인 창 새로 열기
+                    val loginIntent = Intent(context, LoginActivity::class.java)
+                    activity?.startActivity(loginIntent)
+                }
+            }
+            dialogBuilder.setTitle("ChatClone")
+            dialogBuilder.setMessage("Really want logout?")
+            dialogBuilder.setPositiveButton("YES", positiveListener)
+            dialogBuilder.setNeutralButton("No", null)
+            dialogBuilder.show()
             return true
         }
         return false
