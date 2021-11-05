@@ -10,14 +10,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.easyO.chatclone_u.chat.TalkFragment
 import com.easyO.chatclone_u.databinding.ActivityMainBinding
-import com.easyO.chatclone_u.home.MainFragment
+import com.easyO.chatclone_u.home.HomeFragment
 import com.easyO.chatclone_u.setting.SettingFragment
 import com.easyO.chatclone_u.viewModel.MainViewModel
 
 class MainActivity : FragmentActivity() {
     private lateinit var binder : ActivityMainBinding
     private lateinit var mainViewModel : MainViewModel
-    val mainFragment = MainFragment()
+    val mainFragment = HomeFragment()
     val talkFragment = TalkFragment()
     val settingFragment = SettingFragment()
 
