@@ -83,6 +83,8 @@ class LoginActivity : AppCompatActivity() {
                     if (task.result.additionalUserInfo!!.isNewUser){
                         // 해당 유저 정보를 데이터베이스에 업로드 한다
                         FireDataUtil.addUserToDatabase(googleAccount.email!!, auth.uid!!)
+                    }else{
+                        FireDataUtil.getUerData()
                     }
 
                     // 이전 activity를 모두 삭제하고 새로운 mainActivity 실행

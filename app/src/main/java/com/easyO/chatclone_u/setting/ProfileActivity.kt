@@ -22,6 +22,7 @@ import com.easyO.chatclone_u.databinding.ActivityProfileBinding
 import com.easyO.chatclone_u.util.FireDataUtil
 import com.easyO.chatclone_u.util.FireStorage
 import com.easyO.chatclone_u.util.MyConvertor
+import com.easyO.chatclone_u.util.showToast
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binder : ActivityProfileBinding
@@ -90,6 +91,7 @@ class ProfileActivity : AppCompatActivity() {
 
         // *** update 버튼 클릭 시
         binder.buttonUpdate.setOnClickListener {
+            // 모든 항목이 채워져있어야한다
             // 사진 데이터를 firebase Storage에 업로드
             // Users 폴더 -> uid 이름의 폴더 -> 여기에 profile이라는 이름으로 저장
             val firebasePath = "Users/" + AppClass.currentUser!!.uid + "/profile.jpg"
@@ -97,9 +99,8 @@ class ProfileActivity : AppCompatActivity() {
             // 업로드된 그림 파일은 view에 있는 그림이 아닌 원본을 올린다
             if (profileBitmap != null){
                 FireStorage.firebaseUpload(firebasePath, profileBitmap!!, true)
-            }else{
-                FireStorage.firebaseUpload(firebasePath, MyConvertor.getBitmapFromFile(this, R.drawable.ic_google)!!, true)
             }
+
             // 텍스트 데이터를 database에 업로드
             val name = binder.nameEditText.text.toString()
             val sex = binder.sexSpinner.selectedItem.toString()
@@ -108,6 +109,21 @@ class ProfileActivity : AppCompatActivity() {
             Log.d("TAG", "name: $name")
             Log.d("TAG", "sex: $sex")
             Log.d("TAG", "info: $info")
+
+            // 모든 항목이 채워져있어야한다
+            if (name.length < 2){
+                this.showToast("이름은 두 글자 이상입니다.")
+                return@setOnClickListener
+            }else if(info.length < 9){
+                this.showToast("소개는 10글자 이상입니다.")
+                return@setOnClickListener
+            }else if(profileBitmap == null){
+                this.showToast("프로필 사진은 반드시 등록해야합니다")
+                return@setOnClickListener
+            }else if(age.toInt() > 2){
+                this.showToast("나이는 반드시 입력해야합니다.")
+                return@setOnClickListener
+            }
 
             // Text 데이터들을 firebase database에 업데이트
             FireDataUtil.userDataUpdate(name = name, sex = sex, info = info, age = age, uid = AppClass.currentUser!!.uid)

@@ -53,6 +53,8 @@ class EmailLoginDialog(context: Context, private val activity:Activity) : Dialog
                             binder.emailEditText.text = null
                             binder.passwordEditText.text = null
 
+                            FireDataUtil.getUerData()
+
                             // loginDialog 종료
                             this.dismiss()
                         } else {

@@ -1,7 +1,11 @@
 package com.easyO.chatclone_u.util
 
+import android.util.Log
+import com.easyO.chatclone_u.AppClass
 import com.easyO.chatclone_u.model.User
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.File
 
@@ -25,6 +29,23 @@ object FireDataUtil {
         currentUserDataRef.child("user").child(uid).child("basic").child("sex").setValue(sex)
         currentUserDataRef.child("user").child(uid).child("basic").child("age").setValue(age)
         currentUserDataRef.child("user").child(uid).child("basic").child("info").setValue(info)
+    }
+
+    // 유저의 기본정보를 가져온다
+    fun getUerData():User?{
+        val auth = Firebase.auth
+        var userData : User? = null
+        AppClass.currentUser = auth.currentUser
+        FirebaseDatabase.getInstance().reference.child("user")
+            .child(AppClass.currentUser!!.uid).child("basic").get().addOnSuccessListener {
+                userData = it.getValue(User::class.java)
+                Log.d("Firebase", "UserData: $userData")
+                if (userData!!.name != null && !AppClass.hasUserInfo){
+                    Log.d("MainFragment", "hasUerInfo Change")
+                    AppClass.hasUserInfo = true
+                }
+            }
+        return userData
     }
 
     // 유저 태그 업데이트
