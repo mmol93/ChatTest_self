@@ -17,9 +17,9 @@ import com.easyO.chatclone_u.viewModel.MainViewModel
 class MainActivity : FragmentActivity() {
     private lateinit var binder : ActivityMainBinding
     private lateinit var mainViewModel : MainViewModel
-    val mainFragment = MainFragment()
-    val talkFragment = TalkFragment()
-    val settingFragment = SettingFragment()
+    private val mainFragment = MainFragment()
+    private val talkFragment = TalkFragment()
+    private val settingFragment = SettingFragment()
 
     val fragmentList = arrayOf(mainFragment, talkFragment, settingFragment)
     override fun onCreate(savedInstanceState: Bundle?) {

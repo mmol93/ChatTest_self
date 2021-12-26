@@ -74,4 +74,7 @@ object FireDataUtil {
         currentUserDataRef = FirebaseDatabase.getInstance().getReference()
         currentUserDataRef.child("user").child(uid).child("trigger").setValue(data)
     }
+
+    // 다른 유저 정보가져오기
+
 }

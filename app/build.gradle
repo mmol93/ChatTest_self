@@ -61,6 +61,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    // Task Extension function for firebase
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.1'
 
     // Add the dependency for the Firebase SDK for Google Analytics
     // When using the BoM, don't specify versions in Firebase dependencies

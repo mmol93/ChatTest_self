@@ -9,12 +9,19 @@ import android.view.ViewGroup
 import com.easyO.chatclone_u.AppClass
 import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.databinding.FragmentMainBinding
+import com.easyO.chatclone_u.repository.OtherUserRepository
+import com.easyO.chatclone_u.util.ApiResponse
 import com.easyO.chatclone_u.util.FireDataUtil
 import com.easyO.chatclone_u.util.showToast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
     private lateinit var binder: FragmentMainBinding
-
+    private lateinit var userIdList : ArrayList<String>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,6 +30,11 @@ class MainFragment : Fragment() {
         binder = FragmentMainBinding.bind(layoutInflater)
 
         Log.d("MainFragment", "MainFragment is created")
+
+        // 다른 사용자 프로필을 가져와서 게시한다
+        CoroutineScope(Dispatchers.IO).launch {
+            getOtherUsersId()
+        }
 
         binder.dislikeButton.setOnClickListener {
             // 사용자가 프로필을 설정한 상태라면 이 부분은 하지 않는다
@@ -50,4 +62,45 @@ class MainFragment : Fragment() {
 
         return layoutInflater
     }
+    private suspend fun getOtherUsersId(){
+        val otherUserRepository = OtherUserRepository()
+        val getOtherUserIdFlow = otherUserRepository.getUsersId()
+
+        getOtherUserIdFlow.collect {
+            when(it){
+                is ApiResponse.Success -> {
+                    // todo 자기 자신의 id는 제외한다
+                    Log.d("MainFragment", "userID: ${it.data}")
+
+                    userIdList.addAll(it.data!!)
+
+                    // 다른 유저의 데이터만 가져오기
+                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(it.data[0])
+                    getOtherUserDataFlow.collect {
+                        when(it){
+                            is ApiResponse.Success -> {
+                                Log.d("MainFragment", "userData: ${it.data}")
+                                coroutineScope { launch(Dispatchers.Main) {
+                                    binder.nameTextView.text = it.data!!.name
+                                    binder.ageTextview.text = "Age: ${it.data.age}"
+                                    binder.introduceTextview.text = it.data.info
+                                    binder.sexTextView.text = it.data.sex
+                                } }
+                            }
+                        }
+                    }
+
+                    // 그 유저의 사진 데이터도 가져오기
+
+                }
+                is ApiResponse.Loading -> {
+
+                }
+                is ApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
+
 }

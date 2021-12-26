@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
     // *** 다른 액티비티에서 돌아왔을 때
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        // Google 로그인 Activity에서 돌아왔을 때
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
