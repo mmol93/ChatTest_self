@@ -27,6 +27,7 @@ object FireStorage {
             Toast.makeText(AppClass.context, "download fail", Toast.LENGTH_SHORT).show()
         }
     }
+
     // firebase Storage에 파일 업로드
     fun firebaseUpload(firebasePath:String, imageData:Bitmap, trigger:Boolean){
         val storage = Firebase.storage

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import com.easyO.chatclone_u.AppClass
 import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.databinding.FragmentMainBinding
@@ -24,6 +25,7 @@ import kotlin.collections.ArrayList
 class MainFragment : Fragment() {
     private lateinit var binder: FragmentMainBinding
     private var userIdList = ArrayList<String>()
+    private var currentWatchingUser : String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +49,8 @@ class MainFragment : Fragment() {
                     requireContext().showToast("please set your profile first")
                     return@setOnClickListener
                 }
+            }else{
+
             }
         }
 
@@ -101,12 +105,29 @@ class MainFragment : Fragment() {
                     }
 
                     // 그 유저의 사진 데이터도 가져오기
+                    val getOtherUserPictureFlow = otherUserRepository.getUserPicture(userIdList[randomNumber])
+                    getOtherUserPictureFlow.collect {
+                        when(it){
+                            is ApiResponse.Success -> {
+                                coroutineScope { launch(Dispatchers.Main) {
+                                    binder.profileImageView.setImageBitmap(it.data)
+                                    binder.progressBar.isGone = true
+                                } }
+                            }
+                            is ApiResponse.Loading -> {
+                                binder.progressBar.isGone = false
+                            }
+                            is ApiResponse.Error -> {
+                                Log.d("MainFragment", "${it.message}")
+                            }
+                        }
+                    }
                 }
                 is ApiResponse.Loading -> {
 
                 }
                 is ApiResponse.Error -> {
-
+                    Log.d("MainFragment", "get other use data is failed")
                 }
             }
         }
