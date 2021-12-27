@@ -18,10 +18,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainFragment : Fragment() {
     private lateinit var binder: FragmentMainBinding
-    private lateinit var userIdList : ArrayList<String>
+    private var userIdList = ArrayList<String>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +35,7 @@ class MainFragment : Fragment() {
 
         // 다른 사용자 프로필을 가져와서 게시한다
         CoroutineScope(Dispatchers.IO).launch {
-            getOtherUsersId()
+            getOtherUsersData()
         }
 
         binder.dislikeButton.setOnClickListener {
@@ -62,20 +64,25 @@ class MainFragment : Fragment() {
 
         return layoutInflater
     }
-    private suspend fun getOtherUsersId(){
+    private suspend fun getOtherUsersData(){
         val otherUserRepository = OtherUserRepository()
         val getOtherUserIdFlow = otherUserRepository.getUsersId()
 
         getOtherUserIdFlow.collect {
             when(it){
                 is ApiResponse.Success -> {
-                    // todo 자기 자신의 id는 제외한다
                     Log.d("MainFragment", "userID: ${it.data}")
-
                     userIdList.addAll(it.data!!)
 
+                    // todo 자기 자신의 id는 제외한다
+                    userIdList.remove(AppClass.currentUser!!.uid)
+
+                    val random = Random()
+                    val listSize = userIdList.size
+                    val randomNumber = random.nextInt(listSize)
+
                     // 다른 유저의 데이터만 가져오기
-                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(it.data[0])
+                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(it.data[randomNumber])
                     getOtherUserDataFlow.collect {
                         when(it){
                             is ApiResponse.Success -> {
@@ -101,6 +108,9 @@ class MainFragment : Fragment() {
                 }
             }
         }
+    }
+    private suspend fun getAnotherUserData(){
+
     }
 
 }

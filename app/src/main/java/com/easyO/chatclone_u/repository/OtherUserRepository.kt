@@ -26,6 +26,7 @@ class OtherUserRepository {
             for (otherUser in it.children){
                 users.add(otherUser.key.toString())
             }
+            Log.d("OtherUserRepository", "users: $users")
         }.await()
 
         emit(ApiResponse.Success(users))
