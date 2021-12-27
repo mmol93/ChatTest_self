@@ -40,7 +40,7 @@ object FireDataUtil {
             .child(AppClass.currentUser!!.uid).child("basic").get().addOnSuccessListener {
                 userData = it.getValue(User::class.java)
                 Log.d("Firebase", "UserData: $userData")
-                if (userData!!.name != null && !AppClass.hasUserInfo){
+                if (userData!!.name!!.length > 1 && !AppClass.hasUserInfo){
                     Log.d("MainFragment", "hasUerInfo Change")
                     AppClass.hasUserInfo = true
                 }

@@ -39,11 +39,11 @@ class MainFragment : Fragment() {
         }
 
         binder.dislikeButton.setOnClickListener {
+            val userData = FireDataUtil.getUerData()
             // 사용자가 프로필을 설정한 상태라면 이 부분은 하지 않는다
             if (!AppClass.hasUserInfo) {
-                val userData = FireDataUtil.getUerData()
                 // 프로필일 등록하지 않았을 때는 매칭 기능을 사용할 수 없다
-                if (userData?.name == null){
+                if (userData?.name == "" || userData?.name == null){
                     requireContext().showToast("please set your profile first")
                     return@setOnClickListener
                 }
@@ -55,8 +55,9 @@ class MainFragment : Fragment() {
             if (!AppClass.hasUserInfo) {
                 val userData = FireDataUtil.getUerData()
                 // 프로필일 등록하지 않았을 때는 매칭 기능을 사용할 수 없다
-                if (userData?.name == null){
+                if (userData?.name == "" || userData?.name == null){
                     requireContext().showToast("please set your profile first")
+                    Log.d("MainFragment", "please set your profile first")
                     return@setOnClickListener
                 }
             }
