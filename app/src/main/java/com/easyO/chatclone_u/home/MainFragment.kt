@@ -72,18 +72,20 @@ class MainFragment : Fragment() {
         getOtherUserIdFlow.collect {
             when(it){
                 is ApiResponse.Success -> {
-                    Log.d("MainFragment", "userID: ${it.data}")
                     userIdList.addAll(it.data!!)
 
                     // todo 자기 자신의 id는 제외한다
+                    Log.d("MainFragment", "myId: ${AppClass.currentUser!!.uid}")
                     userIdList.remove(AppClass.currentUser!!.uid)
+//                    Log.d("MainFragment", "userID: ${it.data}")
+                    Log.d("MainFragment", "userList: $userIdList")
 
                     val random = Random()
                     val listSize = userIdList.size
                     val randomNumber = random.nextInt(listSize)
 
                     // 다른 유저의 데이터만 가져오기
-                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(it.data[randomNumber])
+                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(userIdList[randomNumber])
                     getOtherUserDataFlow.collect {
                         when(it){
                             is ApiResponse.Success -> {
@@ -99,7 +101,6 @@ class MainFragment : Fragment() {
                     }
 
                     // 그 유저의 사진 데이터도 가져오기
-
                 }
                 is ApiResponse.Loading -> {
 
