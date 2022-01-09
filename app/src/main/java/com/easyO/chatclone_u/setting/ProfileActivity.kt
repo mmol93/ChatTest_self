@@ -120,7 +120,7 @@ class ProfileActivity : AppCompatActivity() {
             }else if(profileBitmap == null){
                 this.showToast("프로필 사진은 반드시 등록해야합니다")
                 return@setOnClickListener
-            }else if(age.toInt() > 2){
+            }else if(age.toInt() < 2){
                 this.showToast("나이는 반드시 입력해야합니다.")
                 return@setOnClickListener
             }
