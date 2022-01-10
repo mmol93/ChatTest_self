@@ -17,6 +17,7 @@ import com.easyO.chatclone_u.util.showToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
@@ -26,6 +27,9 @@ class MainFragment : Fragment() {
     private lateinit var binder: FragmentMainBinding
     private var userIdList = ArrayList<String>()
     private var currentWatchingUser : String? = null
+    private val otherUserRepository = OtherUserRepository()
+    private lateinit var getOtherUserIdFlow: Flow<ApiResponse<ArrayList<String>>>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,8 +41,13 @@ class MainFragment : Fragment() {
 
         // 다른 사용자 프로필을 가져와서 게시한다
         CoroutineScope(Dispatchers.IO).launch {
+            // 모든 유저 데이터 가져오기
+            getOtherUserIdFlow = otherUserRepository.getUsersId()
+
             getOtherUsersData()
         }
+
+        // 같은 유저는 가져오지 않게 한 번 받아본 유저는 이 리스트에 담는다
 
         binder.dislikeButton.setOnClickListener {
             val userData = FireDataUtil.getUerData()
@@ -50,7 +59,10 @@ class MainFragment : Fragment() {
                     return@setOnClickListener
                 }
             }else{
-
+                // 프로필 등록을 마친 상태라면 -> 현재 보고있는 유저는 유저 리스트에서 없애고 -> 다른 채팅 대상 가져오기
+                CoroutineScope(Dispatchers.IO).launch {
+                    getOtherUsersData()
+                }
             }
         }
 
@@ -69,27 +81,37 @@ class MainFragment : Fragment() {
 
         return layoutInflater
     }
+
+    // 가져온 모든 유저 uidList를 바탕으로 다른 유저 데이터를 1개씩 가져온다
     private suspend fun getOtherUsersData(){
-        val otherUserRepository = OtherUserRepository()
-        val getOtherUserIdFlow = otherUserRepository.getUsersId()
+        // 현재 mainFragment에 표시되고 있는 유저는 리스트에서 삭제한다
+        if (currentWatchingUser != null){
+            userIdList.remove(currentWatchingUser)
+        }
 
         getOtherUserIdFlow.collect {
             when(it){
                 is ApiResponse.Success -> {
-                    userIdList.addAll(it.data!!)
+                    if (userIdList.size == 0){
+                        userIdList.addAll(it.data!!)
+                        userIdList.remove(AppClass.currentUser!!.uid)
+                    }
 
-                    // todo 자기 자신의 id는 제외한다
-                    Log.d("MainFragment", "myId: ${AppClass.currentUser!!.uid}")
-                    userIdList.remove(AppClass.currentUser!!.uid)
+                    Log.d("MainFragment", "my uid: ${AppClass.currentUser!!.uid}")
 //                    Log.d("MainFragment", "userID: ${it.data}")
+
                     Log.d("MainFragment", "userList: $userIdList")
 
                     val random = Random()
                     val listSize = userIdList.size
                     val randomNumber = random.nextInt(listSize)
 
+                    // 현재 보고 있는 유저 id를 일시 보관
+                    currentWatchingUser = userIdList[randomNumber]
+
                     // 다른 유저의 데이터만 가져오기
-                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(userIdList[randomNumber])
+                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(currentWatchingUser!!)
+
                     getOtherUserDataFlow.collect {
                         when(it){
                             is ApiResponse.Success -> {
@@ -115,7 +137,9 @@ class MainFragment : Fragment() {
                                 } }
                             }
                             is ApiResponse.Loading -> {
-                                binder.progressBar.isGone = false
+                                coroutineScope { launch(Dispatchers.Main) {
+                                    binder.progressBar.isGone = false
+                                } }
                             }
                             is ApiResponse.Error -> {
                                 Log.d("MainFragment", "${it.message}")
@@ -132,8 +156,4 @@ class MainFragment : Fragment() {
             }
         }
     }
-    private suspend fun getAnotherUserData(){
-
-    }
-
 }

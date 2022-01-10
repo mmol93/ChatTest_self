@@ -22,6 +22,7 @@ class OtherUserRepository {
     private val auth = Firebase.auth
     private var userData: User? = null
 
+    // 모든 유저의 uid를 가져온다
     fun getUsersId() = flow<ApiResponse<ArrayList<String>>> {
         val users = ArrayList<String>()
 
