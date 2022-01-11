@@ -10,6 +10,7 @@ import androidx.core.view.isGone
 import com.easyO.chatclone_u.AppClass
 import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.databinding.FragmentMainBinding
+import com.easyO.chatclone_u.model.User
 import com.easyO.chatclone_u.repository.OtherUserRepository
 import com.easyO.chatclone_u.util.ApiResponse
 import com.easyO.chatclone_u.util.FireDataUtil
@@ -26,10 +27,10 @@ import kotlin.collections.ArrayList
 class MainFragment : Fragment() {
     private lateinit var binder: FragmentMainBinding
     private var userIdList = ArrayList<String>()
-    private var currentWatchingUser : String? = null
+    private var currentWatchingUserUid : String? = null
     private val otherUserRepository = OtherUserRepository()
     private lateinit var getOtherUserIdFlow: Flow<ApiResponse<ArrayList<String>>>
-
+    private var userData: User? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,10 +48,8 @@ class MainFragment : Fragment() {
             getOtherUsersData()
         }
 
-        // 같은 유저는 가져오지 않게 한 번 받아본 유저는 이 리스트에 담는다
-
         binder.dislikeButton.setOnClickListener {
-            val userData = FireDataUtil.getUerData()
+            getUserData()
             // 사용자가 프로필을 설정한 상태라면 이 부분은 하지 않는다
             if (!AppClass.hasUserInfo) {
                 // 프로필일 등록하지 않았을 때는 매칭 기능을 사용할 수 없다
@@ -67,26 +66,37 @@ class MainFragment : Fragment() {
         }
 
         binder.likeButton.setOnClickListener {
+            getUserData()
             // 사용자가 프로필을 설정한 상태라면 이 부분은 하지 않는다
             if (!AppClass.hasUserInfo) {
-                val userData = FireDataUtil.getUerData()
                 // 프로필일 등록하지 않았을 때는 매칭 기능을 사용할 수 없다
                 if (userData?.name == "" || userData?.name == null){
                     requireContext().showToast("please set your profile first")
                     Log.d("MainFragment", "please set your profile first")
                     return@setOnClickListener
                 }
+            }else{
+                // 친구 정보를 DB에 등록한다
+                requireContext().showToast("Added new Friend!!")
+                FireDataUtil.registerFriend(currentWatchingUserUid!!)
             }
         }
 
         return layoutInflater
     }
 
+    // 현재 서버에 있는 사용자 최신 데이터를 가져온다
+    private fun getUserData(){
+        if (userData == null){
+            userData = FireDataUtil.getUerData()
+        }
+    }
+
     // 가져온 모든 유저 uidList를 바탕으로 다른 유저 데이터를 1개씩 가져온다
     private suspend fun getOtherUsersData(){
         // 현재 mainFragment에 표시되고 있는 유저는 리스트에서 삭제한다
-        if (currentWatchingUser != null){
-            userIdList.remove(currentWatchingUser)
+        if (currentWatchingUserUid != null){
+            userIdList.remove(currentWatchingUserUid)
         }
 
         getOtherUserIdFlow.collect {
@@ -107,10 +117,10 @@ class MainFragment : Fragment() {
                     val randomNumber = random.nextInt(listSize)
 
                     // 현재 보고 있는 유저 id를 일시 보관
-                    currentWatchingUser = userIdList[randomNumber]
+                    currentWatchingUserUid = userIdList[randomNumber]
 
                     // 다른 유저의 데이터만 가져오기
-                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(currentWatchingUser!!)
+                    val getOtherUserDataFlow = otherUserRepository.getOtherUserData(currentWatchingUserUid!!)
 
                     getOtherUserDataFlow.collect {
                         when(it){

@@ -102,4 +102,6 @@ dependencies {
     // Button with Icon
     implementation("io.github.nikartm:fit-button:2.0.0")
 
+    // androidx.fragment - https://developer.android.com/jetpack/androidx/releases/fragment?hl=ko
+    implementation "androidx.fragment:fragment-ktx:1.4.0"
 }

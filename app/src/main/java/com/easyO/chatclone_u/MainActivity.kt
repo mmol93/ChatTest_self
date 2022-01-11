@@ -1,6 +1,7 @@
 package com.easyO.chatclone_u
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -16,7 +17,7 @@ import com.easyO.chatclone_u.viewModel.MainViewModel
 
 class MainActivity : FragmentActivity() {
     private lateinit var binder : ActivityMainBinding
-    private lateinit var mainViewModel : MainViewModel
+    private val mainViewModel : MainViewModel by viewModels()
     private val mainFragment = MainFragment()
     private val talkFragment = TalkFragment()
     private val settingFragment = SettingFragment()
@@ -26,7 +27,6 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
 
         binder = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         // fragmentIndex 감시
         mainViewModel.fragmentIndex.observe(this, Observer {

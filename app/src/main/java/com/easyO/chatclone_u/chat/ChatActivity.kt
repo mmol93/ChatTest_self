@@ -53,6 +53,7 @@ class ChatActivity : AppCompatActivity() {
                         val message = it.getValue(SendMessage::class.java)
                         messageList.add(message!!)
                     }
+                    // todo differ로 변경하기
                     messageAdapter.notifyDataSetChanged()
                 }
                 override fun onCancelled(error: DatabaseError) {
