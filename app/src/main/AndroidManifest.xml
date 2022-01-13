@@ -21,7 +21,8 @@
         <activity android:name=".chat.ChatActivity" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.ChatClone_U.splash">
+            android:theme="@style/Theme.ChatClone_U.splash"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

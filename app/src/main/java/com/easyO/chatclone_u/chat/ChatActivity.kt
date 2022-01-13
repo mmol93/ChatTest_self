@@ -2,6 +2,7 @@ package com.easyO.chatclone_u.chat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyO.chatclone_u.R
@@ -52,10 +53,11 @@ class ChatActivity : AppCompatActivity() {
                         val message = it.getValue(SendMessage::class.java)
                         messageList.add(message!!)
                     }
+                    // todo differ로 변경하기
                     messageAdapter.notifyDataSetChanged()
                 }
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Log.d("Firebase", "message Load canceled")
                 }
             })
 

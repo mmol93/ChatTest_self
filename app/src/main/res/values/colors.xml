@@ -14,6 +14,7 @@
     <color name="background_editText">#3E3D3D</color>
     <color name="textColor_background">#7A777B</color>
     <color name="boldTextColor_background">#3F3D3E</color>
+    <color name="red">#f30e3f</color>
 
     // mainColor와 잘 어울리는 색
     <color name="main_pink">#ff66cc</color>

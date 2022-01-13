@@ -124,6 +124,10 @@ class SettingFragment : PreferenceFragmentCompat() {
 
             val positiveListener = object : DialogInterface.OnClickListener{
                 override fun onClick(dialog: DialogInterface?, which: Int) {
+                    // AppClass에 있는 유저 정보도 초기화한다
+                    AppClass.hasUserInfo = false
+                    AppClass.currentUser = null
+
                     // 로그 아웃 및 MainActivity 종료
                     activity?.finishAndRemoveTask()
                     Firebase.auth.signOut()
