@@ -15,6 +15,7 @@ import com.easyO.chatclone_u.repository.OtherUserRepository
 import com.easyO.chatclone_u.util.ApiResponse
 import com.easyO.chatclone_u.util.FireDataUtil
 import com.easyO.chatclone_u.util.showToast
+import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -30,13 +31,19 @@ class MainFragment : Fragment() {
     private var currentWatchingUserUid : String? = null
     private val otherUserRepository = OtherUserRepository()
     private lateinit var getOtherUserIdFlow: Flow<ApiResponse<ArrayList<String>>>
+    private lateinit var databaseRef : DatabaseReference
+    private lateinit var valueChangeListener: ValueEventListener
     private var userData: User? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val layoutInflater = inflater.inflate(R.layout.fragment_main, container, false)
         binder = FragmentMainBinding.bind(layoutInflater)
+
+        // firebase DB 초기화
+        databaseRef = FirebaseDatabase.getInstance().reference
 
         Log.d("MainFragment", "MainFragment is created")
 
@@ -45,6 +52,22 @@ class MainFragment : Fragment() {
             // 모든 유저 데이터 가져오기
             getOtherUserIdFlow = otherUserRepository.getUsersId()
 
+            // 모든 친구 데이터 가져오기
+            otherUserRepository.getFriendsData().collect {
+                when(it){
+                    is ApiResponse.Success -> {
+                        AppClass.friends.clear()
+                        if (it.data != null){
+                            for (friend in it.data){
+                                AppClass.friends.add(friend)
+                            }
+                            Log.d("MainFragment", "friends: ${AppClass.friends}")
+                        }
+                    }
+                }
+            }
+
+            // 다른 유저 데이터 collect 하기
             getOtherUsersData()
         }
 
@@ -79,13 +102,16 @@ class MainFragment : Fragment() {
                 // 친구 정보를 DB에 등록한다
                 requireContext().showToast("Added new Friend!!")
                 FireDataUtil.registerFriend(currentWatchingUserUid!!)
+
+                // 앱 내부 메모리에 있는 friendList에도 등록한다
+                AppClass.friends.add(currentWatchingUserUid!!)
             }
         }
 
         return layoutInflater
     }
 
-    // 현재 서버에 있는 사용자 최신 데이터를 가져온다
+    // 현재 서버에 있는 사용자의 최신 데이터를 가져온다
     private fun getUserData(){
         if (userData == null){
             userData = FireDataUtil.getUerData()
@@ -97,6 +123,11 @@ class MainFragment : Fragment() {
         // 현재 mainFragment에 표시되고 있는 유저는 리스트에서 삭제한다
         if (currentWatchingUserUid != null){
             userIdList.remove(currentWatchingUserUid)
+        }
+
+        // 이미 친구인 유저는 제외한다
+        for (friend in AppClass.friends){
+            userIdList.remove(friend)
         }
 
         getOtherUserIdFlow.collect {

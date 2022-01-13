@@ -12,6 +12,7 @@ class AppClass : Application() {
         var hasUserInfo = false
 
         var currentUser : FirebaseUser? = null
+        val friends = ArrayList<String>()
     }
     override fun onCreate() {
         super.onCreate()

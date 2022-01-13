@@ -3,9 +3,7 @@ package com.easyO.chatclone_u.repository
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import android.widget.Toast
 import com.easyO.chatclone_u.AppClass
-import com.easyO.chatclone_u.R
 import com.easyO.chatclone_u.model.User
 import com.easyO.chatclone_u.util.ApiResponse
 import com.google.firebase.auth.ktx.auth
@@ -13,14 +11,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
 class OtherUserRepository {
     private val auth = Firebase.auth
-    private var userData: User? = null
 
     // 모든 유저의 uid를 가져온다
     fun getUsersId() = flow<ApiResponse<ArrayList<String>>> {
@@ -41,23 +37,25 @@ class OtherUserRepository {
         emit(ApiResponse.Error("Error: ${it.message}"))
     }
 
+    // 해당 uid의 유저 정보를 가져온다
     fun getOtherUserData(userId: String) = flow<ApiResponse<User?>> {
         emit(ApiResponse.Loading())
 
-        var result: User? = null
+        var otherUserData: User? = null
 
         AppClass.currentUser = auth.currentUser
         FirebaseDatabase.getInstance().reference.child("user").child(userId).child("basic").get()
             .addOnSuccessListener {
-                result = it.getValue(User::class.java)
+                otherUserData = it.getValue(User::class.java)
             }.await()
 
-        emit(ApiResponse.Success(result))
+        emit(ApiResponse.Success(otherUserData))
 
     }.catch {
         emit(ApiResponse.Error("Error: ${it.message}"))
     }
 
+    // 해당 uid의 유저 프로필 사진을 가져온다
     fun getUserPicture(userId: String) = flow<ApiResponse<Bitmap?>> {
         var bitmap: Bitmap? = null
         emit(ApiResponse.Loading())
@@ -81,5 +79,21 @@ class OtherUserRepository {
         }
     }.catch {
         emit(ApiResponse.Error("other user's profile image load Error: ${it.message}"))
+    }
+
+    // 친구 정보 가져오기
+    fun getFriendsData() = flow<ApiResponse<ArrayList<String>>> {
+        emit(ApiResponse.Loading())
+        val friends = ArrayList<String>()
+        FirebaseDatabase.getInstance().reference.child("user").child(AppClass.currentUser!!.uid)
+            .child("friends").get().addOnSuccessListener {
+                for (friend in it.children){
+                    friends.add(friend.key.toString())
+                }
+            }.await()
+
+        emit(ApiResponse.Success(friends))
+    }.catch {
+        emit(ApiResponse.Error("get friends list Error: ${it.message}"))
     }
 }
